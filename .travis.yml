@@ -24,6 +24,7 @@ install:
   - docker-compose exec php composer --no-interaction install
   - docker-compose exec php php artisan migrate --seed
   - docker-compose exec php php artisan migrate --seed --env=test
+  - docker-compose exec php php artisan key:generate
 
 script:
   - docker-compose ps
