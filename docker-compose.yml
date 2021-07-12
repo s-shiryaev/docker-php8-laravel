@@ -14,7 +14,7 @@ services:
             - 9000:9000
         volumes:
             - ./laravel:/var/www/laravel
-#            - ./logs/laravel:/var/www/laravel/storage/logs
+            - ./logs/laravel:/var/www/laravel/storage/logs
         depends_on: 
             - db
             - redis
@@ -33,7 +33,7 @@ services:
             - php
         volumes:
             - ./logs/nginx:/var/log/nginx
-#            - ./laravel/public:/var/www/laravel/public
+            - ./laravel/public:/var/www/laravel/public
     redis:
         container_name: redis
         image: redis:alpine
