@@ -2,7 +2,6 @@
 A docker multicontainer with nginx, postgres, redis and an example laravel project.
 
 [![Build Status](https://travis-ci.com/s-shiryaev/docker-php8-laravel.svg?branch=master)](https://travis-ci.com/s-shiryaev/docker-php8-laravel)
-[![codecov](https://codecov.io/gh/s-shiryaev/docker-php8-laravel/branch/master/graph/badge.svg?token=EIW75NWL8S)](https://codecov.io/gh/s-shiryaev/docker-php8-laravel)
 
 ## Installation
 1. Build/run containers
