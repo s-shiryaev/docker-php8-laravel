@@ -31,3 +31,9 @@ uid:  ## change www-data id in container
 
 exec: ## jump into container
 	docker-compose exec -u www-data php sh
+
+install: ## execute composer install command
+	docker-compose exec -u www-data php composer install
+
+app-key: ## generate APP_KEY
+	docker-compose exec -u www-data php php artisan key:generate
