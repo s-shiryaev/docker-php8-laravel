@@ -21,13 +21,13 @@ before_install:
 
 install:
   - docker-compose up -d
-  - docker-compose exec -u www-data php composer --no-interaction install
-  - docker-compose exec -u www-data php php artisan migrate --seed
-  - docker-compose exec -u www-data php php artisan migrate --seed --env=test
+  - docker-compose exec php composer --no-interaction install
+  - docker-compose exec php php artisan migrate --seed
+  - docker-compose exec php php artisan migrate --seed --env=test
 
 script:
   - docker-compose ps
-  - docker-compose exec -u www-data php php artisan test --coverage-clover=coverage.xml
+  - docker-compose exec php php artisan test --coverage-clover=coverage.xml
 
 after_script:
   - docker cp php-fpm:/var/www/laravel/coverage.xml shared
