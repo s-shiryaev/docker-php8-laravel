@@ -15,7 +15,7 @@ A docker multicontainer with nginx, postgres, redis and an example laravel proje
     ```
     make install
     ```
-3. Don't forget generate `APP_KEY`
+3. Don't forget to generate `APP_KEY`
     ```
     make app-key
     ```
