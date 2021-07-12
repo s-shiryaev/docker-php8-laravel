@@ -1,0 +1,38 @@
+language: php
+
+services:
+  - docker
+
+env:
+  - DOCKER_COMPOSE_VERSION=1.25.0
+
+cache:
+  directories:
+    - docker_images
+
+before_install:
+  - echo "$DOCKER_KEY" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker load -i docker_images/images.tar || true
+  - mkdir shared
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+
+install:
+  - docker-compose up -d
+  - docker exec php-fpm  composer --no-interaction install
+  - docker exec php-fpm  php bin/console --no-interaction doctrine:schema:update
+  - docker exec php-fpm  php bin/console --no-interaction doctrine:schema:update --env=test
+
+script:
+  - docker-compose ps
+  - docker exec php-fpm php bin/phpunit --coverage-clover=coverage.xml
+
+after_script:
+#  - docker cp php-fpm:/var/www/laravel/coverage.xml shared
+#  - bash <(curl -s https://codecov.io/bash)
+  - docker-compose stop
+
+before_cache:
+  - docker save -o docker_images/images.tar $(docker images -a -q)

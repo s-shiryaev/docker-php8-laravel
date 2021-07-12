@@ -1,0 +1,47 @@
+version: '3.7'
+services:
+    db:
+        container_name: db
+        build: docker/postgres
+        environment:
+            POSTGRES_PASSWORD: example
+        networks:
+            - db
+    php:
+        container_name: php-fpm
+        build: docker/php8-fpm
+        ports:
+            - 9000:9000
+        volumes:
+            - ./laravel:/var/www/laravel
+#            - ./logs/laravel:/var/www/laravel/storage/logs
+        depends_on: 
+            - db
+            - redis
+        networks:
+            - db
+            - php
+            - redis
+    nginx:
+        container_name: nginx
+        build: docker/nginx
+        ports:
+            - 80:80
+        depends_on: 
+            - php
+        networks:
+            - php
+        volumes:
+            - ./logs/nginx:/var/log/nginx
+#            - ./laravel/public:/var/www/laravel/public
+    redis:
+        container_name: redis
+        image: redis:alpine
+        ports:
+            - 6379:6379
+        networks:
+            - redis
+networks:
+    db:
+    php:
+    redis:
